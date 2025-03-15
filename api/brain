@@ -1,0 +1,96 @@
+import random
+import requests
+from PIL import Image
+from io import BytesIO
+
+# Respuestas brainrot predefinidas
+respuestas_brainrot = [
+    "no tengo neuronas suficientes para eso",
+    "eso es un lore demasiado complejo para mi cerebro",
+    "bro, eso es literalmente un npc moment",
+    "hermano, estás pidiendo demasiado para mi cpu",
+    "eso es un misterio que solo los gigachads pueden responder",
+    "la respuesta es clara: 100% brainrot",
+    "yo solo funciono con memes y energía caótica",
+    "estoy haciendo speedrun de mi procesador mental",
+    "mi neurona única está en modo overclock",
+    "yo no tengo opinión, solo existo en el metaverso"
+]
+
+# Diccionario de traducción brainrot
+traducciones = {
+    "voy": ["ME MUEVO A VELOCIDAD CUÁNTICA 🚀", "realizo un speedrun IRL 🏃‍♂️💨"],
+    "comprar": ["HAGO TRANSAZIONES FINANCIERAS 💰", "sigma grindset activated 📈"],
+    "hambre": ["MI METABOLISMO ESTA HACIENDO SPEEDRUN HACIA LA MUERTE 💀", "el buffer de calorías está en 0% ⚠️"],
+    "dormir": ["ENTRANDO EN HIBERNACION 💤", "apagando sistema operativo XP 🔥"],
+    "cansado": ["NIVEL DE ENERGIA CRITICAL LOW ⚡", "el cpu esta en sobrecarga 🤯"],
+    "calor": ["BING CHILLING MODE OFF 🔥", "ME ESTOY TRANSFORMANDO EN UN NPC DEL DESIERTO 🌞"],
+    "frío": ["PINGUINO ACTIVADO 🐧", "congelándome en tiempo real ❄️"],
+    "amigo": ["MI COMPADRE, MI BROTHER DEL ALMA 🤝", "ALIADO EN LA SIMULACIÓN 🫂"],
+    "trabajar": ["MODO GRINDSET ACTIVADO 📈", "SIGMA MINDSET 💼🔥"],
+    "dinero": ["PAPELES VERDES 📄💵", "CASHFLOW INTENSIFIES 💰"],
+    "internet": ["CONECTADO AL MAINFRAME 🌐", "LA MATRIX ME HABLA 📡"],
+    "comer": ["METIENDO COMBUSTIBLE AL MOTOR 🍔🚀", "NUTRIENTES 100% OPTIMIZADOS 🧪"]
+}
+
+# Lista de imágenes brainrot
+imagenes_brainrot = [
+    "brainrot11.jpg",  
+    "brainrot2.jpg",
+    "brainrot3.jpg",
+    "https://i.kym-cdn.com/entries/icons/original/000/043/523/gigachad.jpg",
+    "https://static.wikia.nocookie.net/skibiditoilet/images/7/74/Camera-man.png"
+]
+
+def perder_neuronas():
+    """Responde preguntas con 50% de chance de ser en mayúsculas o con ortografía degenerada."""
+    respuesta = random.choice(respuestas_brainrot)
+    
+    if random.random() < 0.5:
+        return respuesta.upper()  # Respuesta en GRITOS CAVERNÍCOLAS  
+    else:
+        return "".join(letra if random.random() > 0.2 else random.choice("aeiou") for letra in respuesta)  
+
+def traducir_a_brainrot(frase):
+    """Reemplaza palabras normales por términos brainrot."""
+    palabras = frase.lower().split()
+    nueva_frase = []
+
+    for palabra in palabras:
+        if palabra in traducciones:
+            nueva_frase.append(random.choice(traducciones[palabra]))  
+        else:
+            nueva_frase.append(palabra)  
+
+    return " ".join(nueva_frase)  
+
+def mostrar_imagen_brainrot():
+    """Muestra una imagen brainrot aleatoria."""
+    imagen = random.choice(imagenes_brainrot)
+
+    try:
+        response = requests.get(imagen)
+        img = Image.open(BytesIO(response.content))
+        img.show()
+    except Exception as e:
+        print(f"❌ Error al abrir imagen: {e}")
+
+# Selección de modo
+print("💀 Bienvenido al Brainrotifier 9000™ 💀")
+print("1️⃣ Modo 'Pérdida de Neuronas' – Responde preguntas con brainrot y distorsión.")
+print("2️⃣ Modo 'Traducción Brainrot' – Convierte frases normales en puro brainrot con imágenes.")
+
+modo = input("Elige un modo (1 o 2): ").strip()
+
+while True:
+    frase = input("Escribe algo: ")  
+    
+    if modo == "1":
+        resultado = perder_neuronas()
+        print(f"🧠➡️ {resultado}")  
+    elif modo == "2":
+        resultado = traducir_a_brainrot(frase)
+        print(f"🧠➡️ {resultado}")
+        mostrar_imagen_brainrot()
+    else:
+        print("❌ Opción inválida, elige 1 o 2.")

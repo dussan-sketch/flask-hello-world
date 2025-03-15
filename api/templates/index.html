@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💀 Brainrotifier 9000™ 💀</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <!-- Audio de fondo (se selecciona aleatoriamente desde el backend) -->
+    <audio id="background-audio" loop>
+        <source src="{{ url_for('static', filename='audio/' + audio_fondo) }}" type="audio/mp4">
+    </audio>
+
+    <div class="container">
+        <h1>💀 Brainrotifier 9000™ 💀</h1>
+        <form id="brainrot-form">
+            <label for="frase">Escribe algo:</label>
+            <input type="text" id="frase" name="frase" required>
+
+            <label for="modo">Modo:</label>
+            <select id="modo" name="modo">
+                <option value="1">🔥 Pérdida de Neuronas</option>
+                <option value="2">🧠 Traducción Brainrot</option>
+            </select>
+
+            <button type="submit">💀 Procesar Brainrot 💀</button>
+        </form>
+
+        <div id="resultado" class="resultado"></div>
+        <div id="imagen-container"></div>
+        <div id="loading" style="display:none;">🔄 Procesando...</div>
+    </div>
+
+    <script>
+        document.addEventListener("click", function() {
+            let bgAudio = document.getElementById("background-audio");
+            if (bgAudio.paused) {
+                bgAudio.play().catch(error => console.log("Autoplay bloqueado:", error));
+            }
+        });
+
+        document.getElementById("brainrot-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            let formData = new FormData(this);
+            let resultadoDiv = document.getElementById("resultado");
+            let imagenContainer = document.getElementById("imagen-container");
+            let loadingDiv = document.getElementById("loading");
+
+            resultadoDiv.innerHTML = "";
+            imagenContainer.innerHTML = "";
+            loadingDiv.style.display = "block";
+
+            fetch("/convertir", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                loadingDiv.style.display = "none";
+
+                if (data.error) {
+                    resultadoDiv.innerHTML = `<p style="color:red;">❌ ${data.error}</p>`;
+                } else {
+                    let audioElement = new Audio(data.audio);
+                    audioElement.play().catch(error => console.log("Error al reproducir audio:", error));
+
+                    resultadoDiv.innerHTML = `<h2>🧠➡️ ${data.respuesta}</h2>`;
+                    imagenContainer.innerHTML = `<img src="${data.imagen}" alt="Imagen Brainrot" style="max-width:300px;">`;
+                }
+            })
+            .catch(error => {
+                loadingDiv.style.display = "none";
+                resultadoDiv.innerHTML = `<p style="color:red;">⚠️ Error en la conexión</p>`;
+                console.error("Error:", error);
+            });
+        });
+    </script>
+</body>
+</html>
