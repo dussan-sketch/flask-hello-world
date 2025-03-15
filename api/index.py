@@ -127,7 +127,7 @@ def convertir():
 
     resultado = perder_neuronas() if modo == "1" else traducir_a_brainrot(frase) if modo == "2" else None
     if resultado is None:
-        return jsonify({"error": "Modo inválido"}), 400
+        return jsonify({"error": "Mod inválido"}), 400
 
     imagen = random.choice(imagenes_brainrot)
     audio = random.choice(audios)
